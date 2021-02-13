@@ -146,16 +146,16 @@ fn (mut f TextFormatter) color_it(level Level, text string) string {
 
 	match level {
 		.debug {
-			return term.gray(text)
+			return term.dim(text)
 		}
 		.warn {
-			return term.yellow(text)
+			return term.bright_yellow(text)
 		}
 		.panic, .fatal, .error {
-			return term.red(text)
+			return term.bright_red(text)
 		}		
 		else {
-			return term.blue(text)
+			return term.bright_blue(text)
 		}
 	}
 }
