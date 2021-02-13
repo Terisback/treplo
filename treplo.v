@@ -1,5 +1,7 @@
 module treplo
 
+import x.json2 as json
+
 // Logging levels
 pub enum Level {
 	panic = 0
@@ -8,6 +10,11 @@ pub enum Level {
 	warn
 	info
 	debug
+}
+
+pub struct Field {
+	key string
+	val json.Any
 }
 
 // Formatter interface is used to implement a custom Formatter.
@@ -25,6 +32,6 @@ type ExitFunc = fn(int)
 struct StdOut {}
 
 fn (out StdOut) write(data []byte) ?int {
-	println(data.bytestr())
+	print(data.bytestr())
 	return data.len
 }
