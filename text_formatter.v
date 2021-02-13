@@ -1,6 +1,5 @@
 module treplo
 
-import x.json2 as json
 import time
 import term
 import os
@@ -10,7 +9,7 @@ const (
 	base_timestamp = time.now()
 )
 
-struct TextFormatter {
+pub struct TextFormatter {
 pub:
 	force_colors bool
 	disable_colors bool
@@ -20,11 +19,8 @@ pub:
 	disable_timestamp bool
 	full_timestamp bool
 
-	// Change it to func
-	//timestamp_format string
-
-	// disable_sorting bool
-	// sorting_func fn([]string)
+	disable_sorting bool
+	sorting_func SortingFunc = {}
 
 	disable_level_truncation bool = true
 	pad_level_text bool
@@ -49,15 +45,13 @@ fn (mut f TextFormatter) is_colored() bool {
 }
 
 pub fn (mut f TextFormatter) format(entry Entry) ?[]byte {
-	data := entry.data.clone()
-
 	mut builder := strings.new_builder(256)
-	f.print(mut builder, entry, data)
+	f.print(mut builder, entry)
 	builder.write_b(`\n`)
 	return builder.str().bytes()
 }
 
-fn (mut f TextFormatter) print(mut b strings.Builder, entry Entry, data map[string]json.Any) {
+fn (mut f TextFormatter) print(mut b strings.Builder, entry Entry) {
 	mut level_text := entry.level.str().to_upper()
 	if !f.disable_level_truncation && !f.pad_level_text {
 		level_text = level_text[0..f.level_text_max_length]
@@ -82,17 +76,11 @@ fn (mut f TextFormatter) print(mut b strings.Builder, entry Entry, data map[stri
 		b.write(" " + message)
 	}
 
-	for key, val in data {
+	for key, val in entry.data {
 		b.write_b(` `)
-		if val is string {
-			b.write(f.color_it(entry.level, key) + 
-				"=" + 
-				val.str())
-		} else {
-			b.write(f.color_it(entry.level, key) + 
-				"=" + 
-				f.add_quotes_if_needed(val.str()))
-		}
+		b.write(f.color_it(entry.level, key) + 
+			"=" + 
+			f.add_quotes_if_needed(val.str()))
 	}
 }
 
