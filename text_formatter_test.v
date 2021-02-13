@@ -83,7 +83,7 @@ fn test_fields() {
 	mut en := new_entry(mut log)
 	en.time = t
 	en.message = "Hello"
-	en = en.with_fields(big_map)
+	en = en.with_fields_map(big_map)
 	data := f.format(en) or {
 		assert false
 		return
@@ -107,7 +107,7 @@ fn test_fields_force_quotes() {
 	mut en := new_entry(mut log)
 	en.time = t
 	en.message = "Hello"
-	en = en.with_fields(big_map)
+	en = en.with_fields_map(big_map)
 	data := f.format(en) or {
 		assert false
 		return
@@ -131,7 +131,7 @@ fn test_fields_quote_empty() {
 	mut en := new_entry(mut log)
 	en.time = t
 	en.message = "Hello"
-	en = en.with_fields(big_map)
+	en = en.with_fields_map(big_map)
 	data := f.format(en) or {
 		assert false
 		return
@@ -155,7 +155,7 @@ fn test_fields_disable_quote() {
 	mut en := new_entry(mut log)
 	en.time = t
 	en.message = "Hello"
-	en = en.with_fields(big_map)
+	en = en.with_fields_map(big_map)
 	data := f.format(en) or {
 		assert false
 		return
@@ -235,7 +235,7 @@ fn test_fields_sorting() {
 	log.set_formatter(f)
 	mut en := new_entry(mut log)
 	en.message = "Sort"
-	en = en.with_fields(map{
+	en = en.with_fields_map(map{
 		"zina": json.Any("what")
 		"babushka": json.Any("zina")
 		"country": json.Any("Russian Federation")

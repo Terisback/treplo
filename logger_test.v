@@ -321,7 +321,7 @@ fn test_with_fields() {
 	// Map test
 	// Looks bad, I know, smartcast will be fixed for this
 	llog
-		.with_fields(map{
+		.with_fields_map(map{
 			"id": json.Any("air")
 			"x": json.Any(23)
 			"y": json.Any(142)
