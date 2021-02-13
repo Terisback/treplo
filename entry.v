@@ -59,8 +59,23 @@ pub fn (entry Entry) with_field(key string, value json.Any) Entry {
 	}
 }
 
+// Add a array of fields to the Entry
+pub fn (entry Entry) with_fields(fields ...Field) Entry {
+	mut data := entry.data.clone()
+	for _, v in fields {
+		if v.key != "" {
+			data[v.key] = v.val
+		}
+	}
+
+	return Entry{
+		...entry
+		data: data
+	}
+}
+
 // Add a map of fields (json.Any) to the Entry
-pub fn (entry Entry) with_fields(fields map[string]json.Any) Entry {
+pub fn (entry Entry) with_fields_map(fields map[string]json.Any) Entry {
 	mut data := entry.data.clone()
 	for k, v in fields {
 		data[k] = v

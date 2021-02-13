@@ -40,9 +40,14 @@ pub fn (mut l Logger) with_field(key string, value json.Any) Entry {
 	return entry.with_field(key, value)
 }
 
-pub fn (mut l Logger) with_fields(fields map[string]json.Any) Entry {
+pub fn (mut l Logger) with_fields(fields ...Field) Entry {
 	mut entry := new_entry(mut l)
-	return entry.with_fields(fields)
+	return entry.with_fields(...fields)
+}
+
+pub fn (mut l Logger) with_fields_map(fields map[string]json.Any) Entry {
+	mut entry := new_entry(mut l)
+	return entry.with_fields_map(fields)
 }
 
 pub fn (mut l Logger) with_time(t time.Time) Entry {
