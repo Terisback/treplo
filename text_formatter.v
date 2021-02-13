@@ -83,14 +83,13 @@ fn (mut f TextFormatter) print(mut b strings.Builder, entry Entry, data map[stri
 	}
 
 	for key, val in data {
+		b.write_b(` `)
 		if val is string {
-			b.write(" " + 
-				f.color_it(entry.level, key) + 
+			b.write(f.color_it(entry.level, key) + 
 				"=" + 
 				val.str())
 		} else {
-			b.write(" " + 
-				f.color_it(entry.level, key) + 
+			b.write(f.color_it(entry.level, key) + 
 				"=" + 
 				f.add_quotes_if_needed(val.str()))
 		}
