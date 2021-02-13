@@ -36,23 +36,23 @@ pub fn new() Logger {
 }
 
 pub fn (mut l Logger) with_field(key string, value json.Any) Entry {
-	mut entry := new_entry(l)
+	mut entry := new_entry(mut l)
 	return entry.with_field(key, value)
 }
 
 pub fn (mut l Logger) with_fields(fields map[string]json.Any) Entry {
-	mut entry := new_entry(l)
+	mut entry := new_entry(mut l)
 	return entry.with_fields(fields)
 }
 
 pub fn (mut l Logger) with_time(t time.Time) Entry {
-	mut entry := new_entry(l)
+	mut entry := new_entry(mut l)
 	return entry.with_time(t)
 }
 
 pub fn (mut l Logger) log(level Level, args ...string) {
 	if l.is_level_enabled(level) {
-		mut entry := new_entry(l)
+		mut entry := new_entry(mut l)
 		entry.log(level, ...args)
 	}
 }
@@ -66,7 +66,7 @@ pub fn (mut l Logger) info(args ...string) {
 }
 
 pub fn (mut l Logger) print(args ...string) {
-	mut entry := new_entry(l)
+	mut entry := new_entry(mut l)
 	entry.print(...args)
 }
 
@@ -93,7 +93,7 @@ pub fn (mut l Logger) panic(args ...string) {
 
 pub fn (mut l Logger) logln(level Level, args ...string) {
 	if l.is_level_enabled(level) {
-		mut entry := new_entry(l)
+		mut entry := new_entry(mut l)
 		entry.logln(level, ...args)
 	}
 }
@@ -107,7 +107,7 @@ pub fn (mut l Logger) infoln(args ...string) {
 }
 
 pub fn (mut l Logger) println(args ...string) {
-	mut entry := new_entry(l)
+	mut entry := new_entry(mut l)
 	entry.println(...args)
 }
 

@@ -24,7 +24,7 @@ mut:
 	data map[string]json.Any
 }
 
-pub fn new_entry(logger &Logger) Entry {
+pub fn new_entry(mut logger Logger) Entry {
 	return Entry{
 		logger: logger
 		time: time.now()
