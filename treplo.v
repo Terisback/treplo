@@ -19,9 +19,9 @@ pub interface Formatter {
 type ExitFunc = fn(int)
 
 // Default out implementation
-struct StdErrOut {}
+struct StdOut {}
 
-fn (out StdErrOut) write(data []byte) ?int {
-	eprintln(data.bytestr())
+fn (out StdOut) write(data []byte) ?int {
+	println(data.bytestr())
 	return data.len
 }

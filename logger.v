@@ -27,7 +27,7 @@ mut:
 
 pub fn new() Logger {
 	mut logger := Logger {
-		out: &StdErrOut{}
+		out: &StdOut{}
 		level: .info
 		formatter: &TextFormatter{} // I dunno why it needs pointer
 		exit: exit
