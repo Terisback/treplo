@@ -270,13 +270,14 @@ fn test_with_field() {
 	llog.set_formatter(formatter)
 
 	// string value test
-	llog.with_field("me", "fork").println("Give")
+	llog.with_time(t).with_field("me", "fork").println("Give")
 	assert out.str()	
 		== "INFO[${stime(t)}] Give me=fork"
 	out.clear()
 	
 	// f64 and bool test
 	llog
+		.with_time(t)
 		.with_field("balance", 1337.228)
 		.with_field("millionaire", false)
 		.println("Bank account:")
@@ -286,6 +287,7 @@ fn test_with_field() {
 
 	// i64 test
 	llog
+		.with_time(t)
 		.with_field("Elon Musk's salary", math.max_i64)
 		.println()
 	assert out.str()	
@@ -295,6 +297,7 @@ fn test_with_field() {
 	// Map test
 	// Looks bad, I know, smartcast will be fixed for this
 	llog
+		.with_time(t)
 		.with_field("tile", map{
 			"id": json.Any("air")
 			"x": json.Any(23)
@@ -321,12 +324,27 @@ fn test_with_fields() {
 	// Map test
 	// Looks bad, I know, smartcast will be fixed for this
 	llog
+		.with_time(t)
 		.with_fields_map(map{
 			"id": json.Any("air")
 			"x": json.Any(23)
 			"y": json.Any(142)
 			"solid": json.Any(false)
 		})
+		.println()
+	assert out.str()	
+		== "INFO[${stime(t)}] id=air x=23 y=142 solid=false"
+	out.clear()
+
+	// Fields array
+	llog
+		.with_time(t)
+		.with_fields(
+			{key: "id", val: "air"},
+			{key: "x", val: 23},
+			{key: "y", val: 142},
+			{key: "solid", val: false}
+		)
 		.println()
 	assert out.str()	
 		== "INFO[${stime(t)}] id=air x=23 y=142 solid=false"
