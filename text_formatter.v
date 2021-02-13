@@ -4,10 +4,15 @@ import time
 import term
 import os
 import strings
+import x.json2 as json
 
 const (
 	base_timestamp = time.now()
 )
+
+fn default_sort(mut keys []string) {
+	return
+} 
 
 pub struct TextFormatter {
 pub:
@@ -20,7 +25,7 @@ pub:
 	full_timestamp bool
 
 	disable_sorting bool
-	sorting_func SortingFunc = {}
+	sorting_func SortingFunc = default_sort
 
 	disable_level_truncation bool = true
 	pad_level_text bool
@@ -76,7 +81,23 @@ fn (mut f TextFormatter) print(mut b strings.Builder, entry Entry) {
 		b.write(" " + message)
 	}
 
-	for key, val in entry.data {
+	mut data := map[string]json.Any{}
+
+	if !f.disable_sorting {
+		mut keys := entry.data.keys()
+		f.sorting_func(mut keys)
+		mut new_data := map[string]json.Any{}
+		for _, key in keys {
+			if key in entry.data {
+				new_data[key] = entry.data[key]
+			}
+		}
+		data = new_data.clone()
+	} else {
+		data = entry.data.clone()
+	}
+	
+	for key, val in data {
 		b.write_b(` `)
 		b.write(f.color_it(entry.level, key) + 
 			"=" + 

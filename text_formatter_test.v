@@ -220,6 +220,36 @@ fn test_levels() {
 	assert data.bytestr() == "PANIC Levels\n"
 }
 
+fn sort_by_alphabet(mut keys []string) {
+	keys.sort()
+}
+
+fn test_fields_sorting() {
+	mut log := new()
+	
+	mut f := &TextFormatter{
+		disable_timestamp: true
+		disable_quote: true
+		sorting_func: sort_by_alphabet
+	}
+	log.set_formatter(f)
+	mut en := new_entry(mut log)
+	en.message = "Sort"
+	en = en.with_fields(map{
+		"zina": json.Any("what")
+		"babushka": json.Any("zina")
+		"country": json.Any("Russian Federation")
+		"abey": json.Any("road")
+	})
+	mut data := f.format(en) or {
+		assert false
+		return
+	}
+	assert data.bytestr() == "INFO Sort " +
+		"abey=road babushka=zina " + 
+		"country=Russian Federation zina=what" + "\n"
+}
+
 // Utility func that returns seconds in format that TextFormatter uses
 fn stime(t time.Time) string{
 	return "${(t - base_timestamp)/time.second:04}"
