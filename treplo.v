@@ -17,11 +17,6 @@ pub struct Field {
 	val json.Any
 }
 
-// Formatter interface is used to implement a custom Formatter.
-pub interface Formatter {
-	format(entry Entry) ?[]byte
-}
-
 // Type for key sorting function from TextFormatter
 type SortingFunc = fn(mut keys []string)
 
