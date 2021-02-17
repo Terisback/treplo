@@ -8,7 +8,7 @@ import x.json2 as json
 // the fields passed with `with_fields()`. It's finally logged when debug,
 // info, warn, error, fatal or panic is called on it.
 struct Entry {
-mut:
+pub mut:
 	logger &Logger
 
 	// Time at which the log entry was created
