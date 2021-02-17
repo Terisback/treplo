@@ -56,6 +56,17 @@ pub:
 	// Will wrap empty fields in quotes if true
 	quote_empty_fields bool
 
+	// Allows users to customize the names of keys for default fields.
+	// As an example:
+	// formatter := &treplo.TextFormatter{
+	//     field_map: treplo.FieldMap{
+	//         treplo.field_key_time:  "@timestamp"
+	//         treplo.field_key_level: "@level"
+	//         treplo.field_key_msg:   "@message"
+	//     }
+	// }
+	field_map FieldMap
+
 	// The max length of the level text, by default is 5
 	level_text_max_length int = 5
 }
@@ -77,12 +88,7 @@ fn (mut f TextFormatter) is_colored() bool {
 
 pub fn (mut f TextFormatter) format(entry Entry) ?[]byte {
 	mut builder := strings.new_builder(256)
-	f.print(mut builder, entry)
-	builder.write_b(`\n`)
-	return builder.str().bytes()
-}
 
-fn (mut f TextFormatter) print(mut b strings.Builder, entry Entry) {
 	mut level_text := entry.level.str().to_upper()
 	if !f.disable_level_truncation && !f.pad_level_text {
 		level_text = level_text[0..f.level_text_max_length]
@@ -91,44 +97,47 @@ fn (mut f TextFormatter) print(mut b strings.Builder, entry Entry) {
 		level_text = trail_spaces(level_text, f.level_text_max_length)
 	}
 
-	b.write(f.color_it(entry.level, level_text))
+	builder.write(f.color_it(entry.level, level_text))
 
 	message := entry.message.trim_suffix("\n")
 	
 	if !f.disable_timestamp {
 		if !f.full_timestamp {
-			b.write("[${(entry.time - base_timestamp)/time.second:04}]")
+			builder.write("[${(entry.time - base_timestamp)/time.second:04}]")
 		} else {
-			b.write("[${entry.time.format_ss()}]")
+			builder.write("[${entry.time.format_ss()}]")
 		}
 	}
 
 	if message != "" {
-		b.write(" " + message)
+		builder.write(" " + message)
 	}
 
-	mut data := map[string]json.Any{}
+	mut data := entry.data.clone()
+
+	prefix_field_clashes(mut data, f.field_map)
 
 	if !f.disable_sorting {
-		mut keys := entry.data.keys()
+		mut keys := data.keys()
 		f.sorting_func(mut keys)
 		mut new_data := map[string]json.Any{}
 		for _, key in keys {
-			if key in entry.data {
-				new_data[key] = entry.data[key]
+			if key in data {
+				new_data[key] = data[key]
 			}
 		}
-		data = new_data.clone()
-	} else {
-		data = entry.data.clone()
+		data = new_data.move()
 	}
 	
 	for key, val in data {
-		b.write_b(` `)
-		b.write(f.color_it(entry.level, key) + 
+		builder.write_b(` `)
+		builder.write(f.color_it(entry.level, key) + 
 			"=" + 
 			f.add_quotes_if_needed(val.str()))
 	}
+
+	builder.write_b(`\n`)
+	return builder.str().bytes()
 }
 
 fn trail_spaces(text string, length int) string {
