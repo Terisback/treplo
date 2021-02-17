@@ -333,7 +333,7 @@ fn test_with_fields() {
 		})
 		.println()
 	assert out.str()	
-		== "INFO[${stime(t)}] id=air x=23 y=142 solid=false"
+		== "INFO[${stime(t)}] id=air solid=false x=23 y=142"
 	out.clear()
 
 	// Fields array
@@ -347,7 +347,7 @@ fn test_with_fields() {
 		)
 		.println()
 	assert out.str()	
-		== "INFO[${stime(t)}] id=air x=23 y=142 solid=false"
+		== "INFO[${stime(t)}] id=air solid=false x=23 y=142"
 	out.clear()
 }
 

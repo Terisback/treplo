@@ -3,7 +3,7 @@ module treplo
 import time
 import x.json2 as json
 
-fn test_default_text() {
+fn test_default() {
 	mut t := time.now()
 	mut log := new()
 	
@@ -89,9 +89,9 @@ fn test_fields() {
 		return
 	}
 	assert data.bytestr() == "INFO Hello " +
-		"firstname=Ivan secondname=Ivanov " +
-		"country=\"Russian Federation\" balance=200.48 " +
-		"married=false age=24 cat name=" + "\n"
+		"age=24 balance=200.48 " +
+		"cat name= country=\"Russian Federation\" " +
+		"firstname=Ivan married=false secondname=Ivanov" + "\n"
 }
 
 fn test_fields_force_quotes() {
@@ -113,9 +113,9 @@ fn test_fields_force_quotes() {
 		return
 	}
 	assert data.bytestr() == "INFO Hello " +
-		"firstname=\"Ivan\" secondname=\"Ivanov\" " +
-		"country=\"Russian Federation\" balance=\"200.48\" " +
-		"married=\"false\" age=\"24\" cat name=\"\"" + "\n"
+		'age="24" balance="200.48" ' +
+		'cat name="" country=\"Russian Federation\" ' +
+		'firstname="Ivan" married="false" secondname="Ivanov"' + "\n"
 }
 
 fn test_fields_quote_empty() {
@@ -137,9 +137,9 @@ fn test_fields_quote_empty() {
 		return
 	}
 	assert data.bytestr() == "INFO Hello " +
-		"firstname=Ivan secondname=Ivanov " +
-		"country=\"Russian Federation\" balance=200.48 " +
-		"married=false age=24 cat name=\"\"" + "\n"
+		"age=24 balance=200.48 " +
+		"cat name=\"\" country=\"Russian Federation\" " +
+		"firstname=Ivan married=false secondname=Ivanov" + "\n"
 }
 
 fn test_fields_disable_quote() {
@@ -161,9 +161,9 @@ fn test_fields_disable_quote() {
 		return
 	}
 	assert data.bytestr() == "INFO Hello " +
-		"firstname=Ivan secondname=Ivanov " +
-		"country=Russian Federation balance=200.48 " +
-		"married=false age=24 cat name=" + "\n"
+		"age=24 balance=200.48 " +
+		"cat name= country=Russian Federation " +
+		"firstname=Ivan married=false secondname=Ivanov" + "\n"
 }
 
 fn test_levels() {
