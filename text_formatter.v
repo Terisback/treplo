@@ -68,11 +68,11 @@ pub:
 	field_map FieldMap
 
 	// The max length of the level text, by default is 5
-	level_text_max_length int = 5
+	level_text_max_length int = 4
 }
 
 fn (mut f TextFormatter) is_colored() bool {
-	mut is_colored := false
+	mut is_colored := true
 
 	if f.environment_override_colors {
 		force_color :=  os.getenv("CLICOLOR_FORCE")
