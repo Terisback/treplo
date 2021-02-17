@@ -59,3 +59,4 @@ fn test_entry() {
 }
 
 // It's already pretty tested in logger_test.v so, there is no more tests
+// If you think different, feel free to contribute ;)
