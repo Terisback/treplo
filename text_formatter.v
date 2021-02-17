@@ -17,20 +17,47 @@ fn default_sort(mut keys []string) {
 pub struct TextFormatter {
 pub:
 	force_colors bool
+	// Force disabling colors
 	disable_colors bool
+
+	// Force quoting of all values
 	force_quote bool
+
+	// DisableQuote disables quoting for all values.
+	// DisableQuote will have a lower priority than ForceQuote.
+	// If both of them are set to true, quote will be forced on all values.
 	disable_quote bool
+
+	// Override coloring based on CLICOLOR and CLICOLOR_FORCE
 	environment_override_colors bool
+
+	// Disable timestamp logging. useful when output is redirected to logging
+	// system that already adds timestamps.
 	disable_timestamp bool
+
+	// Enable logging the full timestamp instead of just
+	// the time passed since beginning of execution.
 	full_timestamp bool
 
+	// The fields are sorted by default for a consistent output. For applications
+	// that log extremely frequently and don't use the JSON formatter this may not
+	// be desired.
 	disable_sorting bool
+
+	// The keys sorting function, when uninitialized it uses []string.sort
 	sorting_func SortingFunc = default_sort
 
+	// Disables the truncation of the level text to 4 characters.
 	disable_level_truncation bool = true
+
+	// pad_level_text Adds padding the level text so that all the levels output at the same length
+	// pad_level_text is a superset of the DisableLevelTruncation option
 	pad_level_text bool
+
+	// Will wrap empty fields in quotes if true
 	quote_empty_fields bool
 
+	// The max length of the level text, by default is 5
 	level_text_max_length int = 5
 }
 

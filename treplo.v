@@ -12,6 +12,7 @@ pub enum Level {
 	debug
 }
 
+// Field type, used in `with_fields`
 pub struct Field {
 	key string
 	val json.Any

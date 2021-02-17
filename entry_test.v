@@ -57,3 +57,5 @@ fn test_entry() {
 		== "INFO Pretty tested already"
 	out.clear()
 }
+
+// It's already pretty tested in logger_test.v so, there is no more tests
