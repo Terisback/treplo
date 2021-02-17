@@ -10,6 +10,10 @@ const (
 	base_timestamp = time.now()
 )
 
+// Type for key sorting function from TextFormatter
+type SortingFunc = fn(mut keys []string)
+
+// Default sort for keys 
 fn default_sort(mut keys []string) {
 	keys.sort()
 } 

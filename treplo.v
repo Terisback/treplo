@@ -18,9 +18,4 @@ pub struct Field {
 	val json.Any
 }
 
-// Type for key sorting function from TextFormatter
-type SortingFunc = fn(mut keys []string)
-
-// Type for exit function
-type ExitFunc = fn(int)
 }
