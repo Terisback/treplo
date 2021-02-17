@@ -4,6 +4,17 @@ import time
 import x.json2 as json
 import io
 
+// Default out implementation
+struct StdOut {}
+
+fn (out StdOut) write(data []byte) ?int {
+	print(data.bytestr())
+	return data.len
+}
+
+// Type for exit function
+type ExitFunc = fn(int)
+
 struct Logger {
 mut:
 	// Defaults to print into stderr by `eprintln()`

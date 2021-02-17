@@ -23,11 +23,4 @@ type SortingFunc = fn(mut keys []string)
 
 // Type for exit function
 type ExitFunc = fn(int)
-
-// Default out implementation
-struct StdOut {}
-
-fn (out StdOut) write(data []byte) ?int {
-	print(data.bytestr())
-	return data.len
 }
