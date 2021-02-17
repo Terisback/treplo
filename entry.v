@@ -4,6 +4,12 @@ import strings
 import time
 import x.json2 as json
 
+// Field type, used in `with_fields`
+pub struct Field {
+	key string
+	val json.Any
+}
+
 // An entry is the final or intermediate treplo logging entry. It contains all
 // the fields passed with `with_fields()`. It's finally logged when debug,
 // info, warn, error, fatal or panic is called on it.
