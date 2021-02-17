@@ -16,7 +16,6 @@ fn default_sort(mut keys []string) {
 
 pub struct TextFormatter {
 pub:
-	force_colors bool
 	// Force disabling colors
 	disable_colors bool
 
@@ -62,7 +61,7 @@ pub:
 }
 
 fn (mut f TextFormatter) is_colored() bool {
-	mut is_colored := f.force_colors
+	mut is_colored := false
 
 	if f.environment_override_colors {
 		force_color :=  os.getenv("CLICOLOR_FORCE")
