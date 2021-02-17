@@ -11,7 +11,7 @@ const (
 )
 
 fn default_sort(mut keys []string) {
-	return
+	keys.sort()
 } 
 
 pub struct TextFormatter {
