@@ -1,7 +1,6 @@
 module main
 
 import vweb
-import x.json2 as json
 import terisback.treplo
 
 const (
