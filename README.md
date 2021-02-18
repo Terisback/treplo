@@ -14,8 +14,8 @@ logger to V. <br>
 import terisback.treplo
 
 mut log := treplo.new()
-log.println("Hello world!")
+log.with_fields(
+	{key: "animal", val: "walrus"}
+).info("A walrus appears")
 ```
-
-Outputs: `INFO[0000] Hello world!`
-> Number represents seconds since program start
+![INFO[0000] A walrus appears animal=walrus](https://user-images.githubusercontent.com/26527529/108199028-7b3d1600-712d-11eb-8710-aceca4778dfe.png)
