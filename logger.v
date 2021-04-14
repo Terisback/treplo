@@ -182,6 +182,12 @@ pub fn (mut l Logger) set_exit_func(func ExitFunc) {
 	l.exit = func
 }
 
+// Adds a hook to the logger hooks
+pub fn (mut l Logger) add_hook(hook Hook) {
+	l.hooks.add(hook)
+}
+
+// Replaces the logger hooks and returns the old ones
 pub fn (mut l Logger) replace_hooks(hooks LevelHooks) LevelHooks {
 	old_hooks := l.hooks
 	l.hooks = hooks
