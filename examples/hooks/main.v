@@ -44,9 +44,9 @@ fn main () {
 	// JSONFormatter example
 	log.set_formatter(&treplo.TextFormatter{})
 	for _ in 0..rand.intn(20) + 5 {
+		// It will not count .debug level because logger log level is .info
 		log.with_fields_map(some_map()).log(random_level(), "Whoa") 
-		log.debug("ass")
-		time.sleep(100 * time.millisecond)
+		time.sleep(250 * time.millisecond)
 	}
 
 	// "Later use"

@@ -178,8 +178,6 @@ pub fn (mut entry Entry) panic(args ...string) {
 	entry.log(.panic, ...args)
 }
 
-// Entry Println family functions
-
 pub fn (mut entry Entry) logln(level Level, args ...string) {
 	if entry.logger.is_level_enabled(level) {
 		mut res := strings.new_builder(64)

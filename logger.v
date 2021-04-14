@@ -51,21 +51,25 @@ pub fn new() Logger {
 	return logger
 }
 
+// Create Entry with field
 pub fn (mut l Logger) with_field(key string, value json.Any) Entry {
 	mut entry := new_entry(mut l)
 	return entry.with_field(key, value)
 }
 
+// Create Entry with fields
 pub fn (mut l Logger) with_fields(fields ...Field) Entry {
 	mut entry := new_entry(mut l)
 	return entry.with_fields(...fields)
 }
 
+// Create Entry with data map
 pub fn (mut l Logger) with_fields_map(fields map[string]json.Any) Entry {
 	mut entry := new_entry(mut l)
 	return entry.with_fields_map(fields)
 }
 
+// Create Entry with time
 pub fn (mut l Logger) with_time(t time.Time) Entry {
 	mut entry := new_entry(mut l)
 	return entry.with_time(t)
