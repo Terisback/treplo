@@ -18,7 +18,7 @@ fn test_default() {
 		return
 	}
 	assert data.bytestr() 
-		== '{"time":"${t.format_ss()}","msg":"Hello","level":"info"}'
+		== '{"time":"${t.format_ss()}","msg":"Hello","level":"info"}\n'
 }
 
 fn test_disable_timestamp() {
@@ -38,7 +38,7 @@ fn test_disable_timestamp() {
 		return
 	}
 	assert data.bytestr() 
-		== '{"msg":"Hello","level":"info"}'
+		== '{"msg":"Hello","level":"info"}\n'
 }
 
 fn test_data_key() {
@@ -63,5 +63,5 @@ fn test_data_key() {
 		return
 	}
 	assert data.bytestr() 
-		== '{"dog":{"name":"bark","color":"dark bark"},"msg":"Hello","level":"info"}'
+		== '{"dog":{"name":"bark","color":"dark bark"},"msg":"Hello","level":"info"}\n'
 }
