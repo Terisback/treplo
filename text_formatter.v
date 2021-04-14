@@ -101,20 +101,20 @@ pub fn (mut f TextFormatter) format(entry Entry) ?[]byte {
 		level_text = trail_spaces(level_text, f.level_text_max_length)
 	}
 
-	builder.write(f.color_it(entry.level, level_text))
+	builder.write_string(f.color_it(entry.level, level_text))
 
 	message := entry.message.trim_suffix("\n")
 	
 	if !f.disable_timestamp {
 		if !f.full_timestamp {
-			builder.write("[${(entry.time - base_timestamp)/time.second:04}]")
+			builder.write_string("[${(entry.time - base_timestamp)/time.second:04}]")
 		} else {
-			builder.write("[${entry.time.format_ss()}]")
+			builder.write_string("[${entry.time.format_ss()}]")
 		}
 	}
 
 	if message != "" {
-		builder.write(" " + message)
+		builder.write_string(" " + message)
 	}
 
 	mut data := entry.data.clone()
@@ -135,7 +135,7 @@ pub fn (mut f TextFormatter) format(entry Entry) ?[]byte {
 	
 	for key, val in data {
 		builder.write_b(` `)
-		builder.write(f.color_it(entry.level, key) + 
+		builder.write_string(f.color_it(entry.level, key) + 
 			"=" + 
 			f.add_quotes_if_needed(val.str()))
 	}

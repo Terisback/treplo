@@ -3,11 +3,18 @@ module treplo
 import time
 import x.json2 as json
 
+const (
+	b_st = '\e[94m'
+	b_en = '\e[39m'
+)
+
 fn test_default() {
 	mut t := time.now()
 	mut log := new()
 	
-	mut f := &TextFormatter{}
+	mut f := &TextFormatter{
+		disable_colors: true
+	}
 	log.set_formatter(f)
 	
 	mut en := new_entry(mut log)
@@ -25,6 +32,7 @@ fn test_full_timestamp() {
 	mut log := new()
 	
 	mut f := &TextFormatter{
+		disable_colors: true
 		full_timestamp: true
 	}
 	log.set_formatter(f)
@@ -44,6 +52,7 @@ fn test_disable_timestamp() {
 	mut log := new()
 	
 	mut f := &TextFormatter{
+		disable_colors: true
 		disable_timestamp: true
 	}
 	log.set_formatter(f)
@@ -76,6 +85,7 @@ fn test_fields() {
 	mut log := new()
 	
 	mut f := &TextFormatter{
+		disable_colors: true
 		disable_timestamp: true
 	}
 	log.set_formatter(f)
@@ -94,11 +104,35 @@ fn test_fields() {
 		"firstname=Ivan married=false secondname=Ivanov" + "\n"
 }
 
+fn test_field_color() {
+	mut t := time.now()
+	mut log := new()
+	
+	mut f := &TextFormatter{
+		disable_timestamp: true
+	}
+	log.set_formatter(f)
+	
+	mut en := new_entry(mut log)
+	en.time = t
+	en.message = "Hello"
+	en = en.with_fields_map(map{
+		"age": json.Any(24)
+	})
+	data := f.format(en) or {
+		assert false
+		return
+	}
+	assert data.bytestr() == "\e[94mINFO\e[39m Hello " +
+		"\e[94mage\e[39m=24" + "\n"
+}
+
 fn test_fields_force_quotes() {
 	mut t := time.now()
 	mut log := new()
 	
 	mut f := &TextFormatter{
+		disable_colors: true
 		disable_timestamp: true
 		force_quote: true
 	}
@@ -123,6 +157,7 @@ fn test_fields_quote_empty() {
 	mut log := new()
 	
 	mut f := &TextFormatter{
+		disable_colors: true
 		disable_timestamp: true
 		quote_empty_fields: true
 	}
@@ -147,6 +182,7 @@ fn test_fields_disable_quote() {
 	mut log := new()
 	
 	mut f := &TextFormatter{
+		disable_colors: true
 		disable_timestamp: true
 		disable_quote: true
 	}
@@ -182,42 +218,42 @@ fn test_levels() {
 		assert false
 		return
 	}
-	assert data.bytestr() == "DEBUG Levels\n"
+	assert data.bytestr() == "\e[2mDEBUG\e[22m Levels\n"
 
 	en.level = .info
 	data = f.format(en) or {
 		assert false
 		return
 	}
-	assert data.bytestr() == "INFO Levels\n"
+	assert data.bytestr() == "\e[94mINFO\e[39m Levels\n"
 
 	en.level = .warn
 	data = f.format(en) or {
 		assert false
 		return
 	}
-	assert data.bytestr() == "WARN Levels\n"
+	assert data.bytestr() == "\e[93mWARN\e[39m Levels\n"
 
 	en.level = .error
 	data = f.format(en) or {
 		assert false
 		return
 	}
-	assert data.bytestr() == "ERROR Levels\n"
+	assert data.bytestr() == "\e[91mERROR\e[39m Levels\n"
 
 	en.level = .fatal
 	data = f.format(en) or {
 		assert false
 		return
 	}
-	assert data.bytestr() == "FATAL Levels\n"
+	assert data.bytestr() == "\e[91mFATAL\e[39m Levels\n"
 
 	en.level = .panic
 	data = f.format(en) or {
 		assert false
 		return
 	}
-	assert data.bytestr() == "PANIC Levels\n"
+	assert data.bytestr() == "\e[91mPANIC\e[39m Levels\n"
 }
 
 fn sort_by_alphabet(mut keys []string) {
@@ -228,6 +264,7 @@ fn test_fields_sorting() {
 	mut log := new()
 	
 	mut f := &TextFormatter{
+		disable_colors: true
 		disable_timestamp: true
 		disable_quote: true
 		sorting_func: sort_by_alphabet

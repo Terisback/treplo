@@ -16,22 +16,22 @@ struct SkepticalFormatter {
 fn (f SkepticalFormatter) format(entry treplo.Entry) ?[]byte {
 	mut b := strings.new_builder(256)
 	if "author" in entry.data {
-		b.write(entry.data["author"].str())
+		b.write_string(entry.data["author"].str())
 	} else {
-		b.write("Someone")
+		b.write_string("Someone")
 	}
-	b.write(" says ")
+	b.write_string(" says ")
 	message := "\"${entry.message.trim_space().trim_suffix("\n")}\""
-	b.write(term.dim(message))
+	b.write_string(term.dim(message))
 	if f.be_more_sceptical && int(entry.level) < int(treplo.Level.info) {
-		b.write(" but I don't believe him")
-		b.write(" because I at ")	
-		b.write("${term.bg_red(term.white(entry.level.str()))}")
-		b.write(" level rn")
+		b.write_string(" but I don't believe him")
+		b.write_string(" because I at ")	
+		b.write_string("${term.bg_red(term.white(entry.level.str()))}")
+		b.write_string(" level rn")
 	} else {
-		b.write(" like ")
-		b.write("${(time.now() - base_timestamp)/time.second}")
-		b.write(" seconds ago")
+		b.write_string(" like ")
+		b.write_string("${(time.now() - base_timestamp)/time.second}")
+		b.write_string(" seconds ago")
 	}
 	b.write_b(`.`)
 	b.write_b(`\n`)

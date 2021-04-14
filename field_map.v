@@ -2,6 +2,16 @@ module treplo
 
 import x.json2 as json
 
+// Default key names for the default fields
+pub const (
+	field_key_msg            = "msg"
+	field_key_level          = "level"
+	field_key_time           = "time"
+	field_key_treplo_error   = "treplo_error"
+	field_key_func           = "func"
+	field_key_file           = "file"
+)
+
 // FieldMap allows customization of the key names for default fields.
 type FieldMap = map[string]string
 

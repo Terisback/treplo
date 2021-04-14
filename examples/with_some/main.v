@@ -33,7 +33,7 @@ fn main() {
 			.with_field("service", "puppy")
 			.with_field("request count", 228 + i * 12)
 			.log(treplo.Level(2 + i%4))
-		time.sleep_ms(100)
+		time.sleep(100 * time.millisecond)
 	}
 
 	log.fatal("Welp")

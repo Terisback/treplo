@@ -111,10 +111,17 @@ fn (mut entry Entry) log_message(level Level, msg string) {
 
 	entry.level = level
 	entry.message = msg
+
+	entry.logger.hooks.fire(entry.level, entry) or {
+		eprintln("Failed to fire hook: $err")
+	}
+
 	entry.write()
 
-	if int(level) <= int(Level.panic) {
-		panic(entry.str())
+	match level {
+		.fatal { entry.logger.exit(1) }
+		.panic { panic(entry.str()) }
+		else {}
 	}
 }
 
@@ -133,7 +140,7 @@ pub fn (mut entry Entry) log(level Level, args ...string) {
 	if entry.logger.is_level_enabled(level) {
 		mut res := strings.new_builder(64)
 		for _, val in args {
-			res.write(val)
+			res.write_string(val)
 		}
 		entry.log_message(level, res.str())
 	}
@@ -165,7 +172,6 @@ pub fn (mut entry Entry) error(args ...string) {
 
 pub fn (mut entry Entry) fatal(args ...string) {
 	entry.log(.fatal, ...args)
-	entry.logger.exit(1)
 }
 
 pub fn (mut entry Entry) panic(args ...string) {
@@ -178,7 +184,7 @@ pub fn (mut entry Entry) logln(level Level, args ...string) {
 	if entry.logger.is_level_enabled(level) {
 		mut res := strings.new_builder(64)
 		for _, val in args {
-			res.write(val)
+			res.write_string(val)
 		}
 		res.write_b(`\n`)
 		entry.log_message(level, res.str())
@@ -211,7 +217,6 @@ pub fn (mut entry Entry) errorln(args ...string) {
 
 pub fn (mut entry Entry) fatalln(args ...string) {
 	entry.logln(.fatal, ...args)
-	entry.logger.exit(1)
 }
 
 pub fn (mut entry Entry) panicln(args ...string) {

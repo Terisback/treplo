@@ -1,15 +1,5 @@
 module treplo 
 
-// Default key names for the default fields
-const (
-	field_key_msg            = "msg"
-	field_key_level          = "level"
-	field_key_time           = "time"
-	field_key_treplo_error    = "treplo_error"
-	field_key_func           = "func"
-	field_key_file           = "file"
-)
-
 // Formatter interface is used to implement a custom Formatter.
 // The Formatter interface is used to implement a custom Formatter. It takes an
 // `Entry`. It exposes all the fields, including the default ones:

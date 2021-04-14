@@ -23,7 +23,6 @@ pub fn (mut app App) init_once() {
 	app.log.set_level(.debug)
 	app.log.set_formatter(&treplo.TextFormatter{
 		force_quote: true
-		force_colors: true
 	})
 }
 

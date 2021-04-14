@@ -1,8 +1,8 @@
 module treplo
 
 import time
-import x.json2 as json
 import io
+import x.json2 as json
 
 // Default out implementation
 struct StdOut {}
@@ -17,8 +17,13 @@ type ExitFunc = fn(int)
 
 struct Logger {
 mut:
-	// Defaults to print into stderr by `eprintln()`
+	// Defaults to print into stdout by `print()`
 	out io.Writer
+
+	// Hooks for the logger instance. These allow firing events based on logging
+	// levels and log entries. For example, to send errors to an error tracking
+	// service, log to StatsD or dump the core on fatal errors.
+	hooks LevelHooks
 
 	// The logging level the logger should log at. Defaults to `.info`,
 	// which allows `info()`, `warn()`, `error()` and `fatal()` to be logged.
@@ -100,7 +105,6 @@ pub fn (mut l Logger) error(args ...string) {
 
 pub fn (mut l Logger) fatal(args ...string) {
 	l.log(.fatal, ...args)
-	l.exit(1)
 }
 
 pub fn (mut l Logger) panic(args ...string) {
@@ -141,7 +145,6 @@ pub fn (mut l Logger) errorln(args ...string) {
 
 pub fn (mut l Logger) fatalln(args ...string) {
 	l.logln(.fatal, ...args)
-	l.exit(1)
 }
 
 pub fn (mut l Logger) panicln(args ...string) {
@@ -177,4 +180,10 @@ pub fn (mut l Logger) set_output(output io.Writer) {
 // Sets the logger exit function
 pub fn (mut l Logger) set_exit_func(func ExitFunc) {
 	l.exit = func
+}
+
+pub fn (mut l Logger) replace_hooks(hooks LevelHooks) LevelHooks {
+	old_hooks := l.hooks
+	l.hooks = hooks
+	return old_hooks
 }

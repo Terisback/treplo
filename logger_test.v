@@ -126,8 +126,8 @@ fn test_simple_log() {
 	llog.set_output(out)
 
 	llog.with_time(t).println("Hello world!")
-	assert out.str()	
-		== "INFO[${stime(t)}] Hello world!"
+	assert out.str()
+		== "\e[94mINFO\e[39m[${stime(t)}] Hello world!"
 	out.clear()
 }
 
@@ -266,7 +266,9 @@ fn test_with_field() {
 	llog.set_output(out)
 
 	// We'll use TextFormatter here
-	mut formatter := TextFormatter{}
+	mut formatter := TextFormatter{
+		disable_colors: true
+	}
 	llog.set_formatter(formatter)
 
 	// string value test
@@ -318,7 +320,9 @@ fn test_with_fields() {
 	llog.set_output(out)
 
 	// We'll use TextFormatter here
-	mut formatter := TextFormatter{}
+	mut formatter := TextFormatter{
+		disable_colors: true
+	}
 	llog.set_formatter(formatter)
 
 	// Map test
@@ -341,9 +345,9 @@ fn test_with_fields() {
 		.with_time(t)
 		.with_fields(
 			{key: "id", val: "air"},
-			{key: "x", val: 23},
-			{key: "y", val: 142},
-			{key: "solid", val: false}
+			{key: "x", val: 23.str()},
+			{key: "y", val: 142.str()},
+			{key: "solid", val: false.str()}
 		)
 		.println()
 	assert out.str()	
@@ -359,7 +363,9 @@ fn test_with_time() {
 	llog.set_output(out)
 
 	// We'll use TextFormatter here
-	mut formatter := TextFormatter{}
+	mut formatter := TextFormatter{
+		disable_colors: true
+	}
 	llog.set_formatter(formatter)
 
 	llog
