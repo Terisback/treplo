@@ -3,7 +3,8 @@ module treplo
 import x.json2 as json
 
 // JSONFormatter formats logs into parsable json
-struct JSONFormatter {
+pub struct JSONFormatter {
+pub:
 	// Allows disabling automatic timestamps in output
 	disable_timestamp bool
 
@@ -40,5 +41,5 @@ pub fn (f JSONFormatter) format(entry Entry) ?[]byte {
 	data[f.field_map.resolve(field_key_msg)] = entry.message
 	data[f.field_map.resolve(field_key_level)] = entry.level.str()
 
-	return data.str().bytes()
+	return (data.str() + "\n").bytes()
 }
