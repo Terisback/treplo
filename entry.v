@@ -15,7 +15,7 @@ pub struct Field {
 // info, warn, error, fatal or panic is called on it.
 struct Entry {
 pub mut:
-	logger &Logger
+	logger &Log
 
 	// Time at which the log entry was created
 	time time.Time
@@ -30,9 +30,9 @@ pub mut:
 	data map[string]json.Any
 }
 
-pub fn new_entry(mut logger Logger) Entry {
+pub fn new_entry(mut log Log) Entry {
 	return Entry{
-		logger: logger
+		logger: log
 		time: time.now()
 		level: .info
 		data: map[string]json.Any{}
